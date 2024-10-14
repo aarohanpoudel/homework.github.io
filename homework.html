@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Kathmandu - Discover Nepal's Capital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-bg: #f4f4f4;
+            --white: #fff;
+        }
+        * {margin: 0; padding: 0; box-sizing: border-box; transition: all 0.3s ease;}
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+        .container {max-width: 1200px; margin: 0 auto; padding: 0 20px;}
+        header, footer {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header:hover, footer:hover {
+            background-color: rgba(44, 62, 80, 1);
+        }
+        nav {display: flex; justify-content: space-between; align-items: center;}
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .nav-links {list-style: none; display: flex; gap: 30px;}
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            padding: 10px 15px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-links a:hover {
+            color: var(--primary-color);
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .hero {
+            background: url('https://images.unsplash.com/photo-1605640840605-14ac1855827b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80') center/cover no-repeat;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .hero-content {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        .hero h1 {font-size: 48px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
+        .hero p {font-size: 18px; margin-bottom: 30px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);}
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:hover {
+            background-color: transparent;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 36px;
+            color: var(--secondary-color);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        .destinations, .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        .destination-card, .testimonial-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .destination-card:hover, .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        .destination-card img, .testimonial-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        .destination-card:hover img, .testimonial-card:hover img {
+            transform: scale(1.1);
+        }
+        .card-content {padding: 25px; position: relative; z-index: 1;}
+        .card-content h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 24px;
+        }
+        .card-content p {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 16px;
+        }
+        .testimonial-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 3px solid var(--primary-color);
+            object-fit: cover;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        .testimonial-card .name {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {margin-bottom: 25px; position: relative;}
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+        input:focus, textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+        textarea {resize: vertical; min-height: 150px;}
+        .social-links {
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .social-links a {
+            color: var(--white);
+            font-size: 24px;
+            margin: 0 15px;
+            display: inline-block;
+        }
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-5px) scale(1.2);
+        }
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            display: none;
+            z-index: 1000;
+        }
+        #back-to-top:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--secondary-color);
+                padding: 20px;
+            }
+            .nav-links.active {display: flex;}
+            .mobile-menu-toggle {display: block;}
+            .hero h1 {font-size: 36px;}
+            .hero p {font-size: 16px;}
+            .section-title {font-size: 28px;}
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <div class="logo">Explore Kathmandu</div>
+            <button class="mobile-menu-toggle">☰</button>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Discover the Magic of Kathmandu</h1>
+                <p>Immerse yourself in the rich culture and breathtaking landscapes of Nepal's capital</p>
+                <a href="#destinations" class="btn">Explore Now</a>
+            </div>
+        </section>
+
+        <section id="destinations">
+            <div class="container">
+                <h2 class="section-title">Popular Destinations</h2>
+                <div class="destinations">
+                    <div class="destination-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Boudhanath_Panorama_2016.jpg/900px-Boudhanath_Panorama_2016.jpg" alt="Boudhanath Stupa" loading="lazy">
+                        <div class="card-content">
+                            <h3>Boudhanath Stupa</h3>
+                            <p>One of the largest spherical stupas in Nepal, a UNESCO World Heritage Site.</p>
+                            <a href="https://en.wikipedia.org/wiki/Boudhanath" target="_blank" class="btn">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1605640840605-14ac1855827b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Swayambhunath Temple" loading="lazy">
+                        <div class="card-content">
+                            <h3>Swayambhunath Temple</h3>
+                            <p>Ancient religious complex atop a hill, offering panoramic views of the city.</p>
+                            <a href="https://en.wikipedia.org/wiki/Swayambhunath" target="_blank" class="btn">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <img src="https://www.holidaystonepal.in/media/files/Blogs/Pashupatinath-Temple-Photos/Pashupatinath-Temple.png" alt="Pashupatinath Temple" loading="lazy">
+                        <div class="card-content">
+                            <h3>Pashupatinath Temple</h3>
+                            <p>Sacred Hindu temple complex on the banks of the Bagmati River.</p>
+                            <a href="https://en.wikipedia.org/wiki/Pashupatinath_Temple" target="_blank" class="btn">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <img src="data:image/jpeg;base64,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" alt="Durbar Square" loading="lazy">
+                        <div class="card-content">
+                            <h3>Durbar Square</h3>
+                            <p>Historic royal palace complex showcasing exquisite Nepalese architecture.</p>
+                            <a href="#" class="btn">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <h2 class="section-title">What Our Visitors Say</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Sarah Johnson" loading="lazy">
+                        <p>"Kathmandu exceeded all my expectations. The blend of ancient culture and modern city life is truly unique."</p>
+                        <div class="name">Sarah Johnson</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Michael Lee" loading="lazy">
+                        <p>"The warmth of the Nepalese people and the stunning architecture left a lasting impression on me."</p>
+                        <div class="name">Michael Lee</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">Contact Us</h2>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Explore Kathmandu. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Back to Top">↑</button>
+
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            mobileMenuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({behavior: 'smooth'});
+                });
+            });
+
+            const backToTopButton = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                backToTopButton.style.display = window.pageYOffset > 300 ? 'block' : 'none';
+            });
+            backToTopButton.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.style.display = 'block';
+                } else {
+                    backToTopButton.style.display = 'none';
+                }
+            });
+
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
+
+            // Form validation
+            const contactForm = document.querySelector('.contact-form');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+
+                const name = document.getElementById('name');
+                const email = document.getElementById('email');
+                const message = document.getElementById('message');
+
+                if (name.value.trim() === '') {
+                    showError(name, 'Name is required');
+                    isValid = false;
+                } else {
+                    clearError(name);
+                }
+
+                if (email.value.trim() === '') {
+                    showError(email, 'Email is required');
+                    isValid = false;
+                } else if (!isValidEmail(email.value)) {
+                    showError(email, 'Please enter a valid email address');
+                    isValid = false;
+                } else {
+                    clearError(email);
+                }
+
+                if (message.value.trim() === '') {
+                    showError(message, 'Message is required');
+                    isValid = false;
+                } else {
+                    clearError(message);
+                }
+
+                if (isValid) {
+                    // Submit the form
+                    alert('Form submitted successfully!');
+                    contactForm.reset();
+                }
+            });
+
+            function showError(input, message) {
+                const errorElement = input.nextElementSibling;
+                errorElement.textContent = message;
+                input.classList.add('error');
+            }
+
+            function clearError(input) {
+                const errorElement = input.nextElementSibling;
+                errorElement.textContent = '';
+                input.classList.remove('error');
+            }
+
+            function isValidEmail(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
+        });
+    </script>
+</body>
+</html>
